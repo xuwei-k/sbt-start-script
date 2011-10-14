@@ -205,13 +205,8 @@ object StartScriptPlugin extends Plugin {
     private def scriptRootCheck(baseDirectory: File, scriptFile: File, otherFile: Option[File]): String = {
         val relativeScript = relativizeFile(baseDirectory, scriptFile)
         val template = """
-function die() {
-    echo "$*" 1>&2
-    exit 1
-}
-test -x '@RELATIVE_SCRIPT@' || die "'@RELATIVE_SCRIPT@' not found, this script must be run from the project base directory"
 """
-        val part = renderTemplate(template, Map("RELATIVE_SCRIPT" -> relativeScript.toString))
+        val part = ""//renderTemplate(template, Map("RELATIVE_SCRIPT" -> relativeScript.toString))
         otherFile.foldLeft(part)({ (firstPart, file) =>
             firstPart + renderTemplate("""test -e '@OTHER_FILE@' || die "'@OTHER_FILE@' not found, this script must be run from the project base directory"""",
                                        Map("OTHER_FILE" -> file.toString))
